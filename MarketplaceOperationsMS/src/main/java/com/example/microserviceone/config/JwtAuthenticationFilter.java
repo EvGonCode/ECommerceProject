@@ -50,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String responseSpec = webClient.post()
                 .uri("http://localhost:8082/verify_jwt")
-                .body(BodyInserters.fromValue(bodyMap))
+                .body(BodyInserters.fromValue(jwt))
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
