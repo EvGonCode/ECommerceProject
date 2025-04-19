@@ -18,5 +18,9 @@ public class RestResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
+    @ExceptionHandler(NoSuchUserException.class)
+    protected ResponseEntity<Object> handleNoSuchUser(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
 
 }

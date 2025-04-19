@@ -3,6 +3,7 @@ package com.authentication_service.authentication;
 import com.authentication_service.config.JwtService;
 import com.authentication_service.domain.User;
 import com.authentication_service.exception.DuplicateUserException;
+import com.authentication_service.exception.NoSuchUserException;
 import com.authentication_service.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +31,8 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        var user = userRepo.findByLogin(request.getLogin()).orElseThrow();
+        var user = userRepo.findByLogin(request.getLogin())
+                .orElseThrow(() -> new NoSuchUserException(request.getLogin()));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

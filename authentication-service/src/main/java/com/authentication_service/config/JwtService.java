@@ -10,7 +10,9 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private static final String SECRET_KEY = "QaD4MUT11zs58b11OWFRiJWSx6TW7DTI5PqsT3b+OaDTH/jYsj9qfhxMTd0+z1Yp";
+    private static final String SECRET_KEY = "a-string-secret-at-least-256-bits-long";
     private final RedisService redisService;
 
     public String extractUsername(String token){
@@ -33,13 +35,19 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, User user){
-        String token = Jwts.builder()
-                .setClaims(extraClaims)
-                .setSubject(user.getLogin())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
+        String token = null;
+            token = Jwts.builder().setIssuer("Stormpath")
+                    .setSubject("msilverman")
+                    .claim("login", user.getLogin())
+                    .claim("role", user.getRole())
+                    // Fri Jun 24 2016 15:33:42 GMT-0400 (EDT)
+                    .setIssuedAt(Date.from(Instant.ofEpochSecond(1466796822L)))
+                    // Sat Jun 24 2116 15:33:42 GMT-0400 (EDT)
+                    .setExpiration(Date.from(Instant.ofEpochSecond(4622470422L)))
+                    .signWith(
+                            getSigningKey()
+                    )
+                    .compact();
         redisService.saveTokenRevokeData(token, false);
         return token;
     }
@@ -74,7 +82,11 @@ public class JwtService {
         return claimResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token){
+    public static String extractLogin(String jwt){
+        return extractAllClaims(jwt).get("login", String.class);
+    }
+
+    private static Claims extractAllClaims(String token){
         return Jwts
                 .parser()
                 .setSigningKey(getSigningKey())
@@ -83,8 +95,13 @@ public class JwtService {
                 .getBody() ;
     }
 
-    private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+    private static Key getSigningKey() {
+        byte[] keyBytes = new byte[0];
+        try {
+            keyBytes = SECRET_KEY.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
