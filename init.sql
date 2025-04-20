@@ -3,7 +3,7 @@ drop database testbase;
 create database testbase;
 use testbase;
 
-CREATE TABLE User (
+CREATE TABLE Users (
   user_id INT PRIMARY KEY AUTO_INCREMENT,
   login VARCHAR(50) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
@@ -29,5 +29,5 @@ CREATE TABLE Product_Images (
   FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );
 
-select * from user;
+select * from users;
 show tables from testbase;
