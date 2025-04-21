@@ -1,0 +1,72 @@
+import { IProduct } from '@/features/product';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+
+interface ICartItem extends IProduct {
+  quantity: number;
+}
+
+interface CartState {
+  cart: ICartItem[];
+  updateCart: (item: ICartItem) => void;
+  createCart: (item: ICartItem) => void;
+  deleteCart: (id: string) => void;
+  changeQuantity: ({
+    name,
+    variant,
+  }: {
+    name: string;
+    variant: 'increment' | 'decrement';
+  }) => void;
+  reset: () => void;
+}
+
+export const useCartStore = create<CartState>()(
+  persist(
+    (set) => ({
+      cart: [],
+      updateCart: (item) => {
+        set((state) => ({
+          cart: state.cart.map((ct) =>
+            ct.name === item.name ? { ...item } : ct
+          ),
+        }));
+      },
+      createCart: (item) => {
+        set((state) => ({
+          cart: [...state.cart, item],
+        }));
+      },
+      deleteCart: (name: string) => {
+        set((state) => ({
+          cart: state.cart.filter((ct) => ct.name !== name),
+        }));
+      },
+      changeQuantity: ({
+        name,
+        variant,
+      }: {
+        name: string;
+        variant: 'increment' | 'decrement';
+      }) => {
+        set((state) => ({
+          cart: state.cart.map((ct) =>
+            ct.name === name
+              ? {
+                  ...ct,
+                  quantity:
+                    variant === 'increment' ? ct.quantity + 1 : ct.quantity - 1,
+                }
+              : ct
+          ),
+        }));
+      },
+      reset: () => set({ cart: [] }),
+    }),
+    {
+      name: 'cart',
+      version: 1,
+      storage: createJSONStorage(() => localStorage),
+    }
+  )
+);
