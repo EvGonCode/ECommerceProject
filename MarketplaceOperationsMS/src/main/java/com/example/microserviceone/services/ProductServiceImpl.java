@@ -6,6 +6,7 @@ import com.example.microserviceone.exception.NoSuchImageException;
 import com.example.microserviceone.exception.NoSuchProductInShopException;
 import com.example.microserviceone.repositories.ProductRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -83,5 +84,35 @@ public class ProductServiceImpl implements ProductService{
 
     public Product findByName(String productName){
         return productRepo.findByName(productName).get();
+    }
+
+    @Override
+    public List<Product> getProductsAscByPrice(){
+        return productRepo.findAll(Sort.by(Sort.Direction.ASC, "price"));
+    }
+
+    @Override
+    public List<Product> getProductsDescByPrice(){
+        return productRepo.findAll(Sort.by(Sort.Direction.DESC, "price"));
+    }
+
+    @Override
+    public List<Product> getProductsAscByCreationDate(){
+        return productRepo.findAll(Sort.by(Sort.Direction.ASC, "createdAt"));
+    }
+
+    @Override
+    public List<Product> getProductsDescByCreationDate(){
+        return productRepo.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+    }
+
+    @Override
+    public List<Product> getProductsAscByInStock(){
+        return productRepo.findAll(Sort.by(Sort.Direction.ASC, "inStock"));
+    }
+
+    @Override
+    public List<Product> getProductsDescByInStock(){
+        return productRepo.findAll(Sort.by(Sort.Direction.DESC, "inStock"));
     }
 }

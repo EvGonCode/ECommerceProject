@@ -24,6 +24,42 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/products_by_added_date_desc")
+    public List<ProductDto> getByDateDesc(){
+        return productService.getProductsDescByCreationDate().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/products_by_added_date_asc")
+    public List<ProductDto> getByDateAsc(){
+        return productService.getProductsAscByCreationDate().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/products_by_added_date_desc")
+    public List<ProductDto> getByPriceDesc(){
+        return productService.getProductsDescByPrice().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/products_by_added_date_asc")
+    public List<ProductDto> getByPriceAsc(){
+        return productService.getProductsAscByPrice().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/products_by_in_stock_desc")
+    public List<ProductDto> getByInStockDesc(){
+        return productService.getProductsDescByInStock().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/products_by_in_stock_asc")
+    public List<ProductDto> getByInStockAsc(){
+        return productService.getProductsAscByInStock().stream().map(ProductDto::toDto)
+                .collect(Collectors.toList());
+    }
+
     @PostMapping("/new-product")
     public ResponseEntity addProduct(@RequestBody ProductDto productDto) {
         productService.addProduct(productDto);
