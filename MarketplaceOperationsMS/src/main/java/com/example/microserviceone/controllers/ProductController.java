@@ -76,14 +76,14 @@ public class ProductController {
         return ResponseEntity.ok("Product with name \"%s\" is deleted".formatted(name));
     }
 
-    @PostMapping("/add-image/{productId}/{url}")
-    public ResponseEntity addImageToProduct(@PathVariable Integer productId, @PathVariable String url) {
+    @PostMapping("/add-image/{productId}")
+    public ResponseEntity addImageToProduct(@PathVariable Integer productId, @RequestParam String url) {
         productService.addImageToProduct(productId, url);
         return ResponseEntity.ok("Image \"%s\" is added to the product with id \"%d\"".formatted(url, productId));
     }
 
-    @PostMapping("/delete-image/{productId}/{url}")
-    public ResponseEntity deleteImageToProduct(@PathVariable Integer productId, @PathVariable String url) {
+    @PostMapping("/delete-image/{productId}")
+    public ResponseEntity deleteImageToProduct(@PathVariable Integer productId, @RequestParam String url) {
         productService.deleteImageFromProduct(productId, url);
         return ResponseEntity.ok("Image \"%s\" is deleted from the product with id \"%d\"".formatted(url, productId));
     }
