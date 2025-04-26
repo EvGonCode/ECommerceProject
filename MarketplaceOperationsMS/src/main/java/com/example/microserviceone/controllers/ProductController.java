@@ -36,13 +36,13 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/products_by_added_date_desc")
+    @GetMapping("/products_by_price_desc")
     public List<ProductDto> getByPriceDesc(){
         return productService.getProductsDescByPrice().stream().map(ProductDto::toDto)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/products_by_added_date_asc")
+    @GetMapping("/products_price_asc")
     public List<ProductDto> getByPriceAsc(){
         return productService.getProductsAscByPrice().stream().map(ProductDto::toDto)
                 .collect(Collectors.toList());
@@ -65,12 +65,12 @@ public class ProductController {
         productService.addProduct(productDto);
         return ResponseEntity.ok("Product is saved");
     }
-    @PostMapping("/delete-product/{id}")
+    @PostMapping("/delete-product-by-id/{id}")
     public ResponseEntity deleteProductById(@PathVariable Integer id) {
         productService.deleteProductById(id);
         return ResponseEntity.ok("Product with id \"%d\" is deleted".formatted(id));
     }
-    @PostMapping("/delete-product/{name}")
+    @PostMapping("/delete-product-by-name/{name}")
     public ResponseEntity deleteProductByName(@PathVariable String name) {
         productService.deleteProductByName(name);
         return ResponseEntity.ok("Product with name \"%s\" is deleted".formatted(name));
