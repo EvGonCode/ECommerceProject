@@ -29,7 +29,13 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
             "/products",
-            "/registerUser"
+            "/registerUser",
+            "/products_by_added_date_desc",
+            "/products_by_added_date_asc",
+            "/products_by_price_desc",
+            "/products_price_asc",
+            "/products_by_in_stock_desc",
+            "/products_by_in_stock_asc"
     };
     private final JwtAuthenticationFilter jwtAuthFilter;
 
