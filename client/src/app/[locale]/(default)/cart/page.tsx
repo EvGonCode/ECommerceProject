@@ -2,7 +2,12 @@
 
 import { useCartStore } from '@/features/cart/model/cartStore';
 import { Button } from '@/shared/ui';
+import { Metadata } from 'next';
 import Image from 'next/image';
+
+export const metadata: Metadata = {
+  title: 'Cart',
+};
 
 export default function Cart() {
   const cart = useCartStore((state) => state.cart);

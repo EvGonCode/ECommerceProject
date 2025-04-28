@@ -1,6 +1,11 @@
 import { KeyboardList, KeyboardSwitches } from '@/widgets';
 import { KeyboardCategories } from '@/widgets/KeyboardCategories/KeyboardCategories';
 import { NewArrivals } from '@/widgets/NewArrivals/NewArrivals';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Home',
+};
 
 export default async function Home() {
   return (
