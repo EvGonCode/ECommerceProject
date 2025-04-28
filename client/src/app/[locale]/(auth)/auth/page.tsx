@@ -10,6 +10,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/shared/ui';
+import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -26,6 +27,10 @@ interface FormErrors {
   password?: string;
   confirmPassword?: string;
 }
+
+export const metadata: Metadata = {
+  title: 'Auth',
+};
 
 export default function Auth() {
   const t = useTranslations('auth');
