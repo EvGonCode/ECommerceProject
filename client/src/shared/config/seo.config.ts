@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 
 export const enum APP_NAME {
-  FULL = 'KBDShop',
   SHORT = 'KBDShop',
 }
 
@@ -53,7 +52,7 @@ export const APP_METADATA: Metadata = {
         url: `${APP_URL}/keyboard.png`,
         width: 640,
         height: 640,
-        alt: APP_NAME.FULL,
+        alt: APP_NAME.SHORT,
       },
     ],
   },

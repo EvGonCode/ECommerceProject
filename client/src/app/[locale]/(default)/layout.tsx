@@ -1,4 +1,4 @@
-import { APP_TITLE, APP_METADATA } from '@/shared/config';
+import { APP_METADATA, APP_TITLE } from '@/shared/config';
 import { Footer, Header } from '@/widgets';
 import { Metadata } from 'next';
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   ...APP_METADATA,
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />

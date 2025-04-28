@@ -1,3 +1,6 @@
+export { AdminPage } from './AdminDashboard/AdminPage';
+export { AuthPage } from './Auth/AuthPage';
+export { CartPage } from './Cart/CartPage';
 export { CatalogClient } from './CatalogClient';
 export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
