@@ -12,14 +12,9 @@ import {
   SelectValue,
   Textarea,
 } from '@/shared/ui';
-import { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
-
-export const metadata: Metadata = {
-  title: 'Admin',
-};
 
 export default function AdminDashboard() {
   const t = useTranslations('admin');
