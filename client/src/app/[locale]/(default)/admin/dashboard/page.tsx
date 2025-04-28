@@ -75,7 +75,7 @@ export default function AdminDashboard() {
         inStock: true,
         category: 'KEYBOARD',
       });
-    } catch (error) {
+    } catch {
       toast.error(t('productCreationError'));
     }
   };

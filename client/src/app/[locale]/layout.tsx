@@ -1,18 +1,8 @@
 import { Toaster } from '@/shared/ui/sonner';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
-import { Exo_2, Geist, Geist_Mono } from 'next/font/google';
+import { Exo_2 } from 'next/font/google';
 import '../globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 const exo = Exo_2({
   subsets: ['cyrillic', 'latin'],
