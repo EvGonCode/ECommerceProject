@@ -12,13 +12,23 @@ interface CatalogClientProps {
 export const CatalogClient = ({ products }: CatalogClientProps) => {
   const [initialProducts] = useState<IProduct[]>(products);
 
-  const { products: filteredProducts, ...rest } = useCatalog({
+  const {
+    products: filteredProducts,
+    selectedCategory,
+    handleCategoryChange,
+    ...rest
+  } = useCatalog({
     initialProducts,
   });
 
   return (
     <>
-      <ProductFilters products={filteredProducts} {...rest} />
+      <ProductFilters
+        products={filteredProducts}
+        selectedCategory={selectedCategory}
+        handleCategoryChange={handleCategoryChange}
+        {...rest}
+      />
       <ProductList products={filteredProducts} />
     </>
   );

@@ -49,17 +49,20 @@ export const useCartStore = create<CartState>()(
         name: string;
         variant: 'increment' | 'decrement';
       }) => {
-        set((state) => ({
-          cart: state.cart.map((ct) =>
-            ct.name === name
-              ? {
-                  ...ct,
-                  quantity:
-                    variant === 'increment' ? ct.quantity + 1 : ct.quantity - 1,
-                }
-              : ct
-          ),
-        }));
+        set((state) => {
+          const updatedCart = state.cart
+            .map((ct) => {
+              if (ct.name === name) {
+                const newQuantity =
+                  variant === 'increment' ? ct.quantity + 1 : ct.quantity - 1;
+                return { ...ct, quantity: newQuantity };
+              }
+              return ct;
+            })
+            .filter((ct) => ct.quantity > 0);
+
+          return { cart: updatedCart };
+        });
       },
       reset: () => set({ cart: [] }),
     }),

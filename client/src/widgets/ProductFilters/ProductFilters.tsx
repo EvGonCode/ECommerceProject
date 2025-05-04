@@ -1,7 +1,7 @@
 'use client';
 
 import { SortOption, StockFilter } from '@/features/filters/model/useCatalog';
-import { IProduct } from '@/features/product';
+import { IProduct, ProductCategory } from '@/features/product';
 import { debounce } from '@/shared/lib/utils';
 import {
   Button,
@@ -21,6 +21,7 @@ interface ProductFiltersProps {
   products: IProduct[];
   priceRange: [number, number];
   selectedBrand: string | null;
+  selectedCategory: ProductCategory | null;
   stockFilter: StockFilter;
   sortOption: SortOption | null;
   brands: string[];
@@ -29,6 +30,7 @@ interface ProductFiltersProps {
   filteredCount: number;
   handlePriceChange: (value: [number, number]) => void;
   handleBrandChange: (value: string | null) => void;
+  handleCategoryChange: (value: ProductCategory | null) => void;
   handleSortChange: (value: SortOption | null) => void;
   handleStockFilterChange: (value: StockFilter) => void;
   resetFilters: () => void;
@@ -37,6 +39,7 @@ interface ProductFiltersProps {
 const ProductFilters = ({
   priceRange,
   selectedBrand,
+  selectedCategory,
   stockFilter,
   sortOption,
   brands,
@@ -45,6 +48,7 @@ const ProductFilters = ({
   filteredCount,
   handlePriceChange: onPriceChange,
   handleBrandChange: onBrandChange,
+  handleCategoryChange: onCategoryChange,
   handleSortChange: onSortChange,
   handleStockFilterChange: onStockFilterChange,
   resetFilters,
@@ -88,6 +92,10 @@ const ProductFilters = ({
     onBrandChange(value === 'all' ? null : value);
   };
 
+  const handleCategorySelect = (value: string) => {
+    onCategoryChange(value === 'all' ? null : (value as ProductCategory));
+  };
+
   const handleSortChange = (value: string) => {
     onSortChange(value as SortOption);
   };
@@ -113,6 +121,23 @@ const ProductFilters = ({
                 <SelectItem value="all">{t('all')}</SelectItem>
                 <SelectItem value="in-stock">{t('inStock')}</SelectItem>
                 <SelectItem value="out-of-stock">{t('outOfStock')}</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={selectedCategory || 'all'}
+            onValueChange={handleCategorySelect}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder={t('category')} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>{t('category')}</SelectLabel>
+                <SelectItem value="all">{t('all_categories')}</SelectItem>
+                <SelectItem value="KEYBOARD">{t('keyboard')}</SelectItem>
+                <SelectItem value="SWITCH">{t('switch')}</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

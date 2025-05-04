@@ -64,6 +64,8 @@ const AdminPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      console.log('@formData', formData);
+
       await productService.createProduct(formData);
       toast.success(t('productCreated'));
       setFormData({

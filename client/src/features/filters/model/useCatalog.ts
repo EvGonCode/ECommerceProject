@@ -1,5 +1,5 @@
 'use client';
-import { IProduct } from '@/features/product';
+import { IProduct, ProductCategory } from '@/features/product';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -15,6 +15,7 @@ export type StockFilter = 'all' | 'in-stock' | 'out-of-stock';
 export interface FiltersState {
   priceRange: [number, number];
   brand: string | null;
+  category: ProductCategory | null;
   stock: StockFilter;
   sort: SortOption | null;
 }
@@ -41,6 +42,7 @@ export const useCatalog = ({
     const priceMin = searchParams.get('priceMin');
     const priceMax = searchParams.get('priceMax');
     const brand = searchParams.get('brand');
+    const category = searchParams.get('category') as ProductCategory | null;
     const stock = searchParams.get('stock') as StockFilter | null;
     const sort = searchParams.get('sort') as SortOption | null;
 
@@ -50,6 +52,7 @@ export const useCatalog = ({
         priceMax ? Number(priceMax) : [priceStats.min, priceStats.max][1],
       ],
       brand,
+      category,
       stock: stock || 'all',
       sort,
     };
@@ -68,6 +71,10 @@ export const useCatalog = ({
 
     if (filters.brand) {
       params.set('brand', filters.brand);
+    }
+
+    if (filters.category) {
+      params.set('category', filters.category);
     }
 
     if (filters.stock !== 'all') {
@@ -118,6 +125,10 @@ export const useCatalog = ({
         return false;
       }
 
+      if (filters.category && product.category !== filters.category) {
+        return false;
+      }
+
       if (filters.stock === 'in-stock' && !product.inStock) {
         return false;
       }
@@ -127,7 +138,13 @@ export const useCatalog = ({
 
       return true;
     });
-  }, [products, filters.priceRange, filters.brand, filters.stock]);
+  }, [
+    products,
+    filters.priceRange,
+    filters.brand,
+    filters.category,
+    filters.stock,
+  ]);
 
   const sortedProducts = useMemo(() => {
     if (!filters.sort) return filteredProducts;
@@ -164,6 +181,10 @@ export const useCatalog = ({
     setFilters((prev) => ({ ...prev, brand: value }));
   }, []);
 
+  const handleCategoryChange = useCallback((value: ProductCategory | null) => {
+    setFilters((prev) => ({ ...prev, category: value }));
+  }, []);
+
   const handleStockFilterChange = useCallback((value: StockFilter) => {
     setFilters((prev) => ({ ...prev, stock: value }));
   }, []);
@@ -176,6 +197,7 @@ export const useCatalog = ({
     setFilters({
       priceRange: [priceStats.min, priceStats.max],
       brand: null,
+      category: null,
       stock: 'all',
       sort: null,
     });
@@ -184,6 +206,7 @@ export const useCatalog = ({
   return {
     priceRange: filters.priceRange,
     selectedBrand: filters.brand,
+    selectedCategory: filters.category,
     stockFilter: filters.stock,
     sortOption: filters.sort,
 
@@ -195,6 +218,7 @@ export const useCatalog = ({
 
     handlePriceChange,
     handleBrandChange,
+    handleCategoryChange,
     handleStockFilterChange,
     handleSortChange,
     resetFilters,

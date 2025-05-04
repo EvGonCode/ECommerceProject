@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import { IProduct } from '@/features/product';
 import Link from 'next/link';
 import React from 'react';
 
@@ -13,72 +13,6 @@ interface NewArrivalItem {
   image: string;
   link: string;
 }
-
-const newArrivals: NewArrivalItem[] = [
-  {
-    id: 'retro-dark-lights',
-    title: 'PBTfans Retro Dark Lights R2',
-    price: {
-      value: 15.0,
-      prefix: 'From',
-    },
-    status: 'limited',
-    image: '/keyboard-2.webp',
-    link: '/shop/retro-dark-lights',
-  },
-  {
-    id: 'agar',
-    title: 'Agar',
-    price: {
-      value: 110.0,
-      prefix: 'From',
-    },
-    status: 'pre-order',
-    image: '/keyboard-9.jpg',
-    link: '/shop/agar',
-  },
-  {
-    id: 'gmk-cyl',
-    title: 'GMK CYL Prussian Blue',
-    price: {
-      value: 45.0,
-      prefix: 'From',
-    },
-    status: 'group-buy',
-    image: '/keyboard-14.jpg',
-    link: '/shop/gmk-cyl',
-  },
-  {
-    id: 'gt60-pro',
-    title: 'KBDfans x Gateron GT60 PRO Gaming Keyboard Kit',
-    price: {
-      value: 109.0,
-    },
-    status: 'limited',
-    image: '/keyboard-16.jpg',
-    link: '/shop/gt60-pro',
-  },
-  {
-    id: 'venom-60he',
-    title: 'KBDfans x Geonworks Venom 60 HE Gaming Keyboard Kit',
-    price: {
-      value: 65.0,
-    },
-    status: 'pre-order',
-    image: '/keyboard-2.webp',
-    link: '/shop/venom-60he',
-  },
-  {
-    id: 'tofu84',
-    title: 'Tofu84',
-    price: {
-      value: 159.0,
-    },
-    status: 'group-buy',
-    image: '/keyboard-12.jpg',
-    link: '/shop/tofu84',
-  },
-];
 
 const StatusBadge: React.FC<{ status: NewArrivalItem['status'] }> = ({
   status,
@@ -109,7 +43,21 @@ const StatusBadge: React.FC<{ status: NewArrivalItem['status'] }> = ({
   );
 };
 
-const NewArrivals: React.FC = () => {
+const NewArrivals = ({ products }: { products: IProduct[] }) => {
+  const transformedProducts = products.map((product) => ({
+    ...product,
+    status:
+      Math.random() < 0.33
+        ? 'limited'
+        : Math.random() < 0.5
+        ? 'pre-order'
+        : 'group-buy',
+    price: {
+      value: product.price,
+      prefix: 'From',
+    },
+  }));
+
   return (
     <section className="py-16">
       <div className="text-center mb-8">
@@ -123,28 +71,29 @@ const NewArrivals: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-6 px-4">
-        {newArrivals.map((item) => (
+        {transformedProducts.map((item) => (
           <Link
-            key={item.id}
-            href={item.link}
+            key={item.createdAt + item.name}
+            href={'/catalog'}
             className="group rounded-lg overflow-hidden flex flex-col"
           >
             <div className="relative rounded-lg aspect-square overflow-hidden">
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+              <img
+                src={item.images[0]}
+                alt={item.name}
+                width={270}
+                height={270}
+                className="object-cover w-[270px] h-[270px] rounded-lg transition-transform duration-300 group-hover:scale-105"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 20vw"
               />
             </div>
 
             <div className="p-2 flex flex-col gap-1.5 flex-grow">
-              <StatusBadge status={item.status} />
+              <StatusBadge status={item.status as NewArrivalItem['status']} />
 
               <div>
                 <h3 className="font-medium text-xs line-clamp-2">
-                  {item.title}
+                  {item.name}
                 </h3>
 
                 <div className="mt-auto text-xs">

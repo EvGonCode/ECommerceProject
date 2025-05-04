@@ -1,5 +1,4 @@
 import axios, { CreateAxiosDefaults } from 'axios';
-import { authService } from '../auth-service';
 import { getAccessToken } from './token-helpers';
 
 const errorCatch = (error: any): string => {
@@ -22,7 +21,7 @@ const options: CreateAxiosDefaults = {
 };
 
 const optionsAuth: CreateAxiosDefaults = {
-  baseURL: process.env.SERVER_URL || 'http://localhost:8082',
+  baseURL: process.env.AUTH_URL || 'http://localhost:8082',
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -60,7 +59,6 @@ axiosWithToken.interceptors.response.use(
         return axiosWithToken.request(originalRequest);
       } catch (error) {
         if (errorCatch(error) === 'jwt expired') {
-          await authService.logout();
         }
       }
     }

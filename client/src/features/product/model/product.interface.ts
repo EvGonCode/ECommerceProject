@@ -1,3 +1,5 @@
+export type ProductCategory = 'KEYBOARD' | 'SWITCH';
+
 export interface IProduct {
   // id: string;
   name: string;
@@ -6,7 +8,7 @@ export interface IProduct {
   images: string[];
   brand: string;
   inStock: boolean;
-  category: string;
+  category: ProductCategory;
   createdAt: string;
 }
 
@@ -17,5 +19,5 @@ export interface ICreateProduct {
   images: string[];
   brand: string;
   inStock: boolean;
-  category: 'KEYBOARD' | 'SWITCH';
+  category: ProductCategory;
 }

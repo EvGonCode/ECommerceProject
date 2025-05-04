@@ -28,8 +28,10 @@ class AuthService {
     return response;
   }
 
-  async logout() {
-    const response = await axiosClassic.post<boolean>('/unauthenticate');
+  async logout(jwt: string) {
+    const response = await axiosAuth.post<boolean>('/unauthenticate', {
+      jwt,
+    });
     if (response.status === 200) removeCookiesFromStorage();
     return response;
   }

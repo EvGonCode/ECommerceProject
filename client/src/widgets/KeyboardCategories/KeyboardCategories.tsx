@@ -11,22 +11,16 @@ interface CategoryItem {
 
 const categories: CategoryItem[] = [
   {
-    id: 'keycaps',
-    title: 'Keycaps',
+    id: 'switches',
+    title: 'Switches',
     image: '/keyboard-1.webp',
-    link: '/categories/keycaps',
+    link: '/catalog?category=SWITCH',
   },
   {
     id: 'keyboards',
     title: 'Keyboards',
     image: '/keyboard-2.webp',
-    link: '/categories/diy-kit',
-  },
-  {
-    id: 'full-kit',
-    title: 'Full Kit',
-    image: '/keyboard-6.webp',
-    link: '/categories/full-kit',
+    link: '/catalog?category=KEYBOARD',
   },
 ];
 
@@ -62,7 +56,7 @@ const CategoryCard: React.FC<{ category: CategoryItem }> = ({ category }) => {
 const KeyboardCategories: React.FC = () => {
   return (
     <section className="py-16">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4">
         {categories.map((category) => (
           <CategoryCard key={category.id} category={category} />
         ))}
