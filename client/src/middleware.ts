@@ -20,7 +20,10 @@ export default function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL('/auth', req.url));
     }
 
-    if (jwtDecode<{ role: string }>(accessToken.value).role !== 'ADMIN') {
+    if (
+      jwtDecode<{ role: string }>(accessToken.value).role.toUpperCase() !==
+      'ADMIN'
+    ) {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }

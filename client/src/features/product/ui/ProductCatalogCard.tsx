@@ -27,7 +27,9 @@ const ProductCatalogCard = ({ product }: { product: IProduct }) => {
   useEffect(() => {
     const accessToken = Cookies.get('accessToken');
     if (accessToken) {
-      setIsAdmin(jwtDecode<{ role: string }>(accessToken).role === 'ADMIN');
+      setIsAdmin(
+        jwtDecode<{ role: string }>(accessToken).role.toUpperCase() === 'ADMIN'
+      );
     }
   }, []);
 
