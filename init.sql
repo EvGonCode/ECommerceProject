@@ -1,5 +1,3 @@
-use testbase;
-drop database testbase;
 create database testbase;
 use testbase;
 
@@ -28,6 +26,3 @@ CREATE TABLE Product_Images (
   image_url TEXT NOT NULL,
   FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );
-
-select * from users;
-show tables from testbase;

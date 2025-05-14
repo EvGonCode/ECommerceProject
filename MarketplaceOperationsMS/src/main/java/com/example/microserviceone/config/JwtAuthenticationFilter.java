@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +29,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final WebClient webClient;
     private final UserDetailsService userDetailsService;
 
+    AuthServiceProperties authServiceProperties;
+
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -49,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         String responseSpec = webClient.post()
-                .uri("http://localhost:8082/verify_jwt")
+                .uri(authServiceProperties.getUrl() + "/verify_jwt")
                 .body(BodyInserters.fromValue(jwt))
                 .retrieve()
                 .bodyToMono(String.class)
