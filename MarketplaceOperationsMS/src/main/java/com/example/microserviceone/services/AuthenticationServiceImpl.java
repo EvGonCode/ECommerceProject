@@ -22,7 +22,7 @@ import java.util.Map;
 public class AuthenticationServiceImpl implements AuthenticationService{
     private final WebClient webClient;
     private final PersonService personService;
-    AuthServiceProperties authServiceProperties;
+    private final AuthServiceProperties authServiceProperties;
 
     @Override
     public void authMicroserviceRegisterRequest(String login, String password) {

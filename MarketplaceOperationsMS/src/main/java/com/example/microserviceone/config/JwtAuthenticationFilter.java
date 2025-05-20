@@ -28,8 +28,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final WebClient webClient;
     private final UserDetailsService userDetailsService;
-
-    AuthServiceProperties authServiceProperties;
+    private final AuthServiceProperties authServiceProperties;
 
     @Override
     protected void doFilterInternal(
